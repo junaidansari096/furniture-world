@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Poppins", sans-serif;
+  --font-body: "Open Sans", sans-serif;
+
+  /* Theme variables extrapolated from Stitch design system context. */
+  --color-primary: #6B4226;
+  --color-primary-container: #502C12;
+  --color-secondary: #F5E6D3;
+  --color-on-primary: #ffffff;
+  
+  --color-tertiary: #003E18;
+  --color-tertiary-container: #25D366; /* WhatsApp Green */
+  --color-on-tertiary: #ffffff;
+  
+  --color-surface: #fbf9f8;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container: #f0eded;
+  --color-surface-container-highest: #e4e2e1;
+  --color-on-surface: #1b1c1c;
+  --color-on-surface-variant: #51443d;
+  
+  --color-outline: #83746c;
+  --color-outline-variant: #d5c3b9;
+}
+
+@layer utilities {
+  .bg-wood-gradient {
+    /* The Wood-Grain Gradient: subtle linear transition from primary to primary_container */
+    background: linear-gradient(135deg, #6B4226 0%, #502C12 100%);
+  }
+  
+  .shadow-ambient {
+    /* Ambient Shadows: Soft light of a well-lit showroom -> shadow tinted with primary */
+    box-shadow: 0 4px 40px -10px rgba(80, 44, 18, 0.08);
+  }
+  
+  .glass-nav {
+    background-color: rgba(251, 249, 248, 0.8);
+    backdrop-filter: blur(24px);
+  }
+
+  .ghost-border {
+    border: 1px solid rgba(213, 195, 185, 0.15); /* outline_variant at 15% opacity */
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #fbf9f8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Base styles for Plus Jakarta Sans/Poppins Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* No-Line rule - explicitly removing default borders from most UI components in favor of backgrounds */
+button, input, textarea, select {
+  border: none;
+  border-radius: 0.5rem; /* DEFAULT (0.5rem) radius */
+  font-family: var(--font-body);
+}
+
+button {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1.5rem; /* xl radius for images */
+}
