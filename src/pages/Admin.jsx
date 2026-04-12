@@ -217,7 +217,7 @@ const Admin = () => {
                        className="block w-full text-xs text-on-surface-variant file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-on-primary hover:file:bg-primary/90 cursor-pointer"
                      />
                      <input 
-                        type="url" name="image" placeholder="Or stick URL here" value={formData.image} 
+                        type="text" name="image" placeholder="Or stick URL here" value={formData.image} 
                         onChange={handleInputChange} 
                         className="bg-surface-container-highest p-2 rounded-md w-full text-sm outline-none" 
                      />
@@ -288,7 +288,7 @@ const Admin = () => {
                    <div className="h-px bg-outline-variant/30 flex-1"></div>
                  </div>
                  <input 
-                   type="url" placeholder="https://..."
+                   type="text" placeholder="https://..."
                    value={settings.heroImage} 
                    onChange={(e) => setSettings(prev => ({...prev, heroImage: e.target.value}))} 
                    className="bg-surface-container-highest p-3 rounded-lg w-full outline-none focus:ring-2 focus:ring-primary text-sm" 
