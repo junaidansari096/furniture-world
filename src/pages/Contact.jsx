@@ -58,7 +58,7 @@ const Contact = () => {
 
           <div className="w-full h-64 bg-surface-container-highest rounded-[2rem] overflow-hidden">
             <iframe 
-              src="https://maps.google.com/maps?q=23%C2%B041'51.9%22N%2087%C2%B004'46.5%22E&t=&z=16&ie=UTF8&iwloc=&output=embed" 
+              src="https://maps.google.com/maps?q=23.697750,87.079583&hl=en&z=16&output=embed" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 
