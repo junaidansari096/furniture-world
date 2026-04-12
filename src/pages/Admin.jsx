@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { getProducts, addProduct, updateProduct, deleteProduct, categories } from '../data/products';
 
 const Admin = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [loginError, setLoginError] = useState('');
+
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   
@@ -18,8 +22,10 @@ const Admin = () => {
   });
 
   useEffect(() => {
-    loadProducts();
-  }, []);
+    if (isAuthenticated) {
+      loadProducts();
+    }
+  }, [isAuthenticated]);
 
   const loadProducts = () => {
     setProducts(getProducts());
@@ -88,12 +94,44 @@ const Admin = () => {
     });
   };
 
+  if (!isAuthenticated) {
+    return (
+      <div className="pt-32 px-6 flex justify-center items-center min-h-[70vh]">
+        <div className="bg-surface-container-lowest shadow-ambient p-10 rounded-3xl max-w-md w-full border border-outline-variant/20">
+          <h2 className="text-3xl font-display font-bold text-primary mb-2 text-center">Admin Access</h2>
+          <p className="text-on-surface-variant font-body text-center mb-8">Please enter the master password</p>
+          <form onSubmit={(e) => {
+            e.preventDefault();
+            if (passwordInput === 'FW2026') {
+              setIsAuthenticated(true);
+            } else {
+              setLoginError('Incorrect password. Please try again.');
+            }
+          }} className="flex flex-col gap-4">
+            <input 
+              type="password" 
+              placeholder="Password" 
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              className="bg-surface-container-highest p-4 text-lg rounded-xl w-full outline-none focus:ring-2 focus:ring-primary transition-all text-center tracking-widest"
+              autoFocus
+            />
+            {loginError && <p className="text-[#e84b4b] text-sm text-center font-semibold">{loginError}</p>}
+            <button type="submit" className="mt-2 w-full bg-wood-gradient text-on-primary py-4 rounded-xl font-bold shadow-ambient hover:opacity-90 transition-opacity">
+              Unlock Dashboard
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="pt-24 px-6 md:px-12 max-w-7xl mx-auto min-h-screen">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-3xl md:text-4xl font-display font-bold text-primary">Store Admin</h1>
         <div className="bg-surface-container-highest px-4 py-2 rounded-lg text-sm text-on-surface-variant italic">
-          Data saves locally instantly
+          Data saves locally instantly • Logged In
         </div>
       </div>
 
