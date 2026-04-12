@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../data/products';
+import { getSettings } from '../data/settings';
 
 const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [heroImage, setHeroImage] = useState('');
 
   useEffect(() => {
     // Dynamic fetching of only featured items from localStorage store
@@ -16,6 +18,9 @@ const Home = () => {
     });
     // Show up to 3 featured products
     setFeaturedProducts(featured.slice(0, 3));
+    
+    // Load hero image
+    setHeroImage(getSettings().heroImage);
   }, []);
 
   return (
@@ -24,7 +29,7 @@ const Home = () => {
       <section className="relative w-full h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img 
-            src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&q=80&w=1600" 
+            src={heroImage} 
             alt="Beautiful wooden furniture room" 
             className="w-full h-full object-cover rounded-none"
           />

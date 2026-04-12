@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { addQuery } from '../data/queries';
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', message: '' });
@@ -11,6 +12,9 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Save to local query store for Admin panel
+      addQuery({ type: 'contact', source: 'Contact Page', ...formData });
+
       try {
         await addDoc(collection(db, 'contact_queries'), {
           ...formData,

@@ -4,6 +4,7 @@ import { db, storage } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getProducts } from '../data/products';
+import { addQuery } from '../data/queries';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -67,6 +68,18 @@ const ProductDetail = () => {
         const snapshot = await uploadBytes(storageRef, imageFile);
         imageUrl = await getDownloadURL(snapshot.ref);
       }
+
+      // Save data locally for Admin panel
+      addQuery({
+        type: 'quote',
+        source: 'Product Detail',
+        productId: product.id,
+        productName: product.name,
+        ...formData,
+        finalCategory: formData.category === 'Other' ? formData.customCategory : formData.category,
+        finalMaterial: formData.material === 'Other' ? formData.customMaterial : formData.material,
+        referenceImage: imageUrl
+      });
 
       // Save data to Firestore (Assuming user has properly setup FB)
       try {
