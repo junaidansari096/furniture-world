@@ -49,17 +49,16 @@ const Contact = () => {
             </div>
             <div className="text-lg text-on-surface-variant font-body mb-4 flex items-center gap-4">
               <span>📞</span>
-              <p className="font-bold">+91 98765 43210</p>
+              <p className="font-bold">+91 96413 82271</p>
             </div>
-            <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer">
+            <a href="https://wa.me/919641382271" target="_blank" rel="noreferrer">
               <button className="mt-4 bg-[#25D366] text-white px-6 py-3 rounded-lg font-bold hover:opacity-90 transition-opacity">WhatsApp Us</button>
             </a>
           </div>
 
           <div className="w-full h-64 bg-surface-container-highest rounded-[2rem] overflow-hidden">
-            {/* Simple dummy iframe for map requirement */}
             <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d117925.21689626325!2d88.26495147879482!3d22.535564937803628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882db4908f667%3A0x43e330e68f6c2cbc!2sKolkata%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+              src="https://maps.google.com/maps?q=23%C2%B041'51.9%22N%2087%C2%B004'46.5%22E&t=&z=16&ie=UTF8&iwloc=&output=embed" 
               width="100%" 
               height="100%" 
               style={{ border: 0 }} 

@@ -49,7 +49,7 @@ const Home = () => {
                 View Products
               </button>
             </Link>
-            <a href="https://wa.me/919876543210?text=I%20want%20to%20order%20furniture" target="_blank" rel="noreferrer" className="w-full sm:w-auto">
+            <a href="https://wa.me/919641382271?text=I%20want%20to%20order%20furniture" target="_blank" rel="noreferrer" className="w-full sm:w-auto">
               <button className="w-full bg-surface-container-highest text-primary border border-primary/20 py-4 px-10 rounded-xl text-lg font-bold hover:bg-surface-container-low transition-colors">
                 Contact on WhatsApp
               </button>

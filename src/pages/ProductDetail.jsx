@@ -117,7 +117,7 @@ const ProductDetail = () => {
     }
     message += `Material: ${finalMaterial}\nColor: ${formData.color}\nNotes: ${formData.customNotes}`;
     
-    const url = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+    const url = `https://wa.me/919641382271?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
   };
 
