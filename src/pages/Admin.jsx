@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { getProducts, addProduct, updateProduct, deleteProduct, categories } from '../data/products';
 import { getSettings, updateSettings } from '../data/settings';
 import { getQueries, deleteQuery } from '../data/queries';
+import { compressImage } from '../utils/imageCompressor';
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [loginError, setLoginError] = useState('');
+  const [isCompressing, setIsCompressing] = useState(false);
 
   const [activeTab, setActiveTab] = useState('Inventory'); // 'Inventory', 'Settings', 'Queries'
 
@@ -31,6 +33,35 @@ const Admin = () => {
   }, [isAuthenticated]);
 
   const loadProducts = () => setProducts(getProducts());
+
+  // === Image Upload Handlers ===
+  const handleProductImageUpload = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setIsCompressing(true);
+      try {
+        const base64Str = await compressImage(e.target.files[0], 800, 0.6);
+        setFormData(prev => ({ ...prev, image: base64Str }));
+      } catch (err) {
+        alert("Failed to compress image");
+      } finally {
+        setIsCompressing(false);
+      }
+    }
+  };
+
+  const handleHeroImageUpload = async (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setIsCompressing(true);
+      try {
+        const base64Str = await compressImage(e.target.files[0], 1600, 0.7);
+        setSettings(prev => ({ ...prev, heroImage: base64Str }));
+      } catch (err) {
+        alert("Failed to compress image");
+      } finally {
+        setIsCompressing(false);
+      }
+    }
+  };
 
   // === Inventory Handlers ===
   const handleInputChange = (e) => {
@@ -178,9 +209,21 @@ const Admin = () => {
                   <input required type="text" name="material" value={formData.material} onChange={handleInputChange} className="bg-surface-container-highest p-3 rounded-lg w-full" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <label className="text-xs font-semibold uppercase text-on-surface-variant">Image URL</label>
-                  <input required type="url" name="image" value={formData.image} onChange={handleInputChange} className="bg-surface-container-highest p-3 rounded-lg w-full" />
-                  {formData.image && <img src={formData.image} alt="Preview" className="mt-2 h-20 w-20 object-cover rounded-lg" />}
+                  <label className="text-xs font-semibold uppercase text-on-surface-variant">Image Source</label>
+                  <div className="flex flex-col gap-2 border border-outline-variant/30 rounded-lg p-2 bg-surface">
+                     <input 
+                       type="file" accept="image/*"
+                       onChange={handleProductImageUpload} 
+                       className="block w-full text-xs text-on-surface-variant file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-on-primary hover:file:bg-primary/90 cursor-pointer"
+                     />
+                     <input 
+                        type="url" name="image" placeholder="Or stick URL here" value={formData.image} 
+                        onChange={handleInputChange} 
+                        className="bg-surface-container-highest p-2 rounded-md w-full text-sm outline-none" 
+                     />
+                  </div>
+                  {isCompressing && <p className="text-primary text-xs font-bold animate-pulse mt-1">Compressing...</p>}
+                  {formData.image && !isCompressing && <img src={formData.image} alt="Preview" className="mt-2 h-20 w-20 object-cover rounded-lg border border-outline-variant/30" />}
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold uppercase text-on-surface-variant">Description</label>
@@ -231,14 +274,30 @@ const Admin = () => {
           <h2 className="text-2xl font-display font-bold text-on-surface mb-6">Site Customization</h2>
           <form onSubmit={handleSettingsSave} className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold uppercase text-on-surface-variant tracking-wider">Home Hero Background Image (URL)</label>
-              <input 
-                type="url" required 
-                value={settings.heroImage} 
-                onChange={(e) => setSettings(prev => ({...prev, heroImage: e.target.value}))} 
-                className="bg-surface-container-highest p-4 rounded-xl w-full outline-none focus:ring-2 focus:ring-primary" 
-              />
-              {settings.heroImage && (
+              <label className="text-sm font-semibold uppercase text-on-surface-variant tracking-wider">Home Hero Background Image</label>
+              
+              <div className="flex flex-col border border-outline-variant/30 rounded-xl p-4 bg-surface gap-4">
+                 <input 
+                   type="file" accept="image/*"
+                   onChange={handleHeroImageUpload} 
+                   className="block w-full text-sm text-on-surface-variant file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-on-primary hover:file:bg-primary/90 cursor-pointer"
+                 />
+                 <div className="flex items-center gap-2">
+                   <div className="h-px bg-outline-variant/30 flex-1"></div>
+                   <span className="text-xs uppercase font-bold text-outline">OR PASTE URL</span>
+                   <div className="h-px bg-outline-variant/30 flex-1"></div>
+                 </div>
+                 <input 
+                   type="url" placeholder="https://..."
+                   value={settings.heroImage} 
+                   onChange={(e) => setSettings(prev => ({...prev, heroImage: e.target.value}))} 
+                   className="bg-surface-container-highest p-3 rounded-lg w-full outline-none focus:ring-2 focus:ring-primary text-sm" 
+                 />
+              </div>
+
+              {isCompressing && <p className="text-primary text-sm font-bold animate-pulse mt-2">Compressing image...</p>}
+
+              {settings.heroImage && !isCompressing && (
                 <div className="mt-4 rounded-xl overflow-hidden border border-outline-variant/30 relative h-48 w-full group">
                   <img src={settings.heroImage} alt="Hero Preview" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-surface/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
@@ -247,7 +306,7 @@ const Admin = () => {
                 </div>
               )}
             </div>
-            <button type="submit" className="w-full bg-wood-gradient text-on-primary py-4 rounded-xl font-bold shadow-ambient mt-4">
+            <button disabled={isCompressing} type="submit" className="w-full bg-wood-gradient text-on-primary py-4 rounded-xl font-bold shadow-ambient mt-4 disabled:opacity-50">
               Apply Changes
             </button>
           </form>
