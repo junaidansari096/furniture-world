@@ -49,9 +49,9 @@ const Contact = () => {
             </div>
             <div className="text-lg text-on-surface-variant font-body mb-4 flex items-center gap-4">
               <span>📞</span>
-              <p className="font-bold">+91 96413 82271</p>
+              <p className="font-bold">+91 12345 67890</p>
             </div>
-            <a href="https://wa.me/919641382271" target="_blank" rel="noreferrer">
+            <a href="https://wa.me/911234567890" target="_blank" rel="noreferrer">
               <button className="mt-4 bg-[#25D366] text-white px-6 py-3 rounded-lg font-bold hover:opacity-90 transition-opacity">WhatsApp Us</button>
             </a>
           </div>

@@ -2,7 +2,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 
 const FloatingWhatsApp = () => {
   // Replace with actual shop number
-  const phoneNumber = "919641382271"; 
+  const phoneNumber = "911234567890"; 
   const message = "Hello! I want to order furniture.";
   const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
